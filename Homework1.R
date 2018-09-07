@@ -17,7 +17,7 @@ between_45_and_55
 
 X = rnorm(1000, mean = 0, sd = 1)
 X
-median(X)
+X_median = median(X)
 prop_ = sum(X < 1.5) / 1000 # Proportion of X less than 1.5
 X_theoretical = pnorm(1.5, mean = 0, sd = 1, lower.tail = TRUE)
 X_theoretical # Theoretical Proportion
@@ -25,5 +25,5 @@ err_ = X_theoretical - prop_ # Difference between observed vs theoretical
 
 ## Yes, the value changes each time
 
-binom.test(X, 1000, p = 0.5, alternative = "t")
+binom.test(sum(X < 1.5), 1000, p = 0.5, alternative = "two.sided", conf.level = 0.95)
 
