@@ -5,8 +5,8 @@ dose_i = c(0.21, 16.20, 10.10, 8.67, 11.13, 1.96, 10.19, 15.87, 12.81)
 dose_ii = c(1.59, 2.66, 6.27, 2.32, 10.87, 7.23, 3.76, 3.02, 15.01)
 
 # Part 1
-cat("Ho: dose_1(x) = dose_2(x)")
-cat("Ha: dose_1(x) != dose_2(x)")
+cat("Ho: dose_1(x) = dose_2(x), The response variations between doses follows the same trend")
+cat("Ha: dose_1(x) != dose_2(x), the response variations between doses follows different trends/distributions")
 
 # Part 2
 dosage = wilcox.test(dose_i, dose_ii, paired = F, alternative = "two.sided")
@@ -19,8 +19,8 @@ n = length(dose_ii)
 clt.mu = m*n/2 
 clt.s2 = m*n*(m+n+1)/12
 
-(Z_score = (U_1-clt.mu-1/2)/(sqrt(clt.s2))) # Continuity correction, minus 1/2
-(P.value = 2*pnorm(Z_score)) # P(Z > z) since alt = "greater"
+(Z_score = (U_1-clt.mu-1/2)/(sqrt(clt.s2)))
+(P.value = 2*pnorm(Z_score))
 
 
 
@@ -45,7 +45,7 @@ n = length(dose_ii)
 clt.mu = m*n/2 
 clt.s2 = m*n*(m+n+1)/12
 
-(Z_score = (U_1-clt.mu-1/2)/(sqrt(clt.s2))) # Continuity correction, minus 1/2
-(P.value = 2*pnorm(Z_score)) # P(Z > z) since alt = "greater"
+(Z_score = (U_1-clt.mu-1/2)/(sqrt(clt.s2)))
+(P.value = 2*pnorm(Z_score))
 
 
