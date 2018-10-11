@@ -26,22 +26,35 @@ clt.s2 = m*n*(m+n+1)/12
 
 ### Problem 2
 months = c(0, 1, 2, 3, 4, 5, 6)
-first_year = c(26, 28, 34, 48, 21, 22, 34)
-second_year = c(28, 27, 42, 44, 17, 6, 16)
+first_gp = c(26, 28, 34, 48, 21, 22, 34)
+second_gp = c(28, 27, 42, 44, 17, 6, 16)
+year_1979 = c()
+year_1983 = c()
+
+iter = 0
+for(i in first_gp) {
+  year_1979 = c(year_1979, rep(iter, i))
+  iter = iter + 1
+}
+
+iter = 0
+for(i in second_gp) {
+  year_1983 = c(year_1983, rep(iter, i))
+  iter = iter + 1
+}
 
 # Part 1
 cat("Ho: u_0 = u_1, The average wait times between years is the same, or the difference in averages is 0")
 cat("Ha: u_0 != u_1, the difference in average wait times is not 0")
 
 # Part 2
-publications = wilcox.test(first_year, second_year, paired = F, alternative = "two.sided")
+publications = wilcox.test(year_1979, year_1983, paired = F, alternative = "two.sided")
 
-# Part 3
 # Part 3
 U_1 = publications$statistic
 
-m = length(dose_i)
-n = length(dose_ii)
+m = length(year_1979)
+n = length(year_1983)
 clt.mu = m*n/2 
 clt.s2 = m*n*(m+n+1)/12
 
