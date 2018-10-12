@@ -9,10 +9,13 @@ cat("Ho: dose_1(x) = dose_2(x), The response variations between doses follows th
 cat("Ha: dose_1(x) != dose_2(x), the response variations between doses follows different trends/distributions")
 
 # Part 2
-dosage = wilcox.test(dose_i, dose_ii, paired = F, alternative = "two.sided")
+dosage1 = wilcox.test(dose_i, dose_ii, paired = F, alternative = "two.sided", conf.level = 0.95)
+dosage2 = wilcox.test(dose_ii, dose_i, paired = F, alternative = "two.sided", correct = T)
+dosage = min(c(dosage1$statistic, dosage2$statistic), na.rm = F)
+cat("The p value is: ", dosage1$p.value, " which is greater than 0.05, so we fail to reject Ho")
 
 # Part 3
-U_1 = dosage$statistic
+U_1 = dosage1$statistic
 
 m = length(dose_i)
 n = length(dose_ii)
@@ -20,7 +23,9 @@ clt.mu = m*n/2
 clt.s2 = m*n*(m+n+1)/12
 
 (Z_score = (U_1-clt.mu-1/2)/(sqrt(clt.s2)))
-(P.value = 2*pnorm(Z_score))
+
+cat("The p-value for normal approximation is: ", (P.value = 2*pnorm(Z_score)), 
+    "which is also greater than 0.05, so we fail to reject Ho")
 
 
 
@@ -49,6 +54,7 @@ cat("Ha: u_0 != u_1, the difference in average wait times is not 0")
 
 # Part 2
 publications = wilcox.test(year_1979, year_1983, paired = F, alternative = "two.sided")
+cat("The p.value is: ", publications$p.value, " which is less than 0.05, so we reject Ho and accept Ha")
 
 # Part 3
 U_1 = publications$statistic
@@ -61,4 +67,5 @@ clt.s2 = m*n*(m+n+1)/12
 (Z_score = (U_1-clt.mu-1/2)/(sqrt(clt.s2)))
 (P.value = 2*pnorm(Z_score))
 
-
+cat("I don't understand what this p-value means, ", (P.value = 2*pnorm(Z_score)), 
+    " it is greater than 0.05, so do we fail to reject Ho?")
