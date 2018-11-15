@@ -24,9 +24,11 @@ levels = c(rep('A', 5), rep('B', 7), rep('C', 7))
 levels = factor(levels)
 
 kruskal.test(data ~ levels)
-
 # since our p-value > 0.05, we cannot say that one computer is used more often
 
+pairwise.wilcox.test(data, levels, paired = FALSE)
+# Since all values are >0.05, we cannot say that there is 
+# a significant difference between either pairs of computer usages
 
 ### Problem 2:
 
@@ -46,7 +48,7 @@ cor.test(intelligence, soc_dominance, method="spearman", alternative="less")
 cor.test(intelligence, soc_dominance, method="kendall")
 
 # part4: test
-cor.test(intelligence, soc_dominance, method="spearman", alternative="less")
+cor.test(intelligence, soc_dominance, method="kendall", alternative="less")
 
 
 
@@ -69,11 +71,6 @@ chisq.test(student.attitudes)$expected
 # Since our p-value is less than 0.05, there is an association between the stage of a student's program and
 # Their attitude
 
-
-
-x = c(1,2,3,4)
-y = c(5,6,67,7)
-kendall.tau(x,y)
 
 
 
