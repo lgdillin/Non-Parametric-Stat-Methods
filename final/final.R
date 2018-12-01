@@ -71,36 +71,36 @@ for(i in 1:nrow(prostatedata)) {
 
 ### Not
 
-levels = c(rep(1, 50), rep(2, 52))
+levels = c(rep(0, 47), rep(1, 25))
 
-sig_level = 0.05 / nrow(leuk) # our level of significance
+sig_level = 0.05 / nrow(leukdata) # our level of significance
 significant = c()
 normal = c()
 notnormal = c()
 
 # For every row in our dataset
-for(i in 1:nrow(prostatedata)) {
-  prow = prostatedata[i,]
+for(i in 1:nrow(leukdata)) {
+  lrow = leukdata[i,]
   
-  # Test if the gene is normally distributed between normal and cancer patients
-  normy = shapiro.test(prow)$p.value
+  # Test if the gene is normally distributed between ALL and AML patients
+  normy = shapiro.test(lrow)$p.value
   
   # split the data
-  normal.patients = prow[1:50]
-  cancer.patients = prow[51:102]
+  ALL.patients = lrow[1:47]
+  AML.patients = lrow[48:72]
   
   # If it is, we can perform a two-sample t-test on the row (b)
   # Otherwise, use a non-parametric test
   if(normy < 0.05) {
     notnormal = append(notnormal, i)
-    statistic = wilcox.test(normal.patients, cancer.patients, alternative = "two.sided")
+    statistic = wilcox.test(ALL.patients, AML.patients, alternative = "two.sided", correct = TRUE)
     
     if(statistic$p.value < sig_level) {
       significant = append(significant, i)
     }
   } else {
     normal = append(normal, i)
-    statistic = t.test(normal.patients, cancer.patients, alternative = "two.sided")
+    statistic = t.test(ALL.patients, AML.patients, alternative = "two.sided")
     if(statistic$p.value < sig_level) {
       significant = append(significant, i)
     }
