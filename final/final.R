@@ -48,12 +48,17 @@ for(i in 1:nrow(prostatedata)) {
     notnormal = append(notnormal, i)
     statistic = wilcox.test(normal.patients, cancer.patients, alternative = "two.sided")
     
+    # If the p.value of the result is less than our sig_level
+    # save the index
     if(statistic$p.value < sig_level) {
       significant = append(significant, i)
     }
   } else {
     normal = append(normal, i)
     statistic = t.test(normal.patients, cancer.patients, alternative = "two.sided")
+    
+    # If the p.value of the result is less than our sig_level
+    # save the index
     if(statistic$p.value < sig_level) {
       significant = append(significant, i)
     }
@@ -64,7 +69,7 @@ for(i in 1:nrow(prostatedata)) {
 ##### PROBLEM #2: LEUKEMIA DATA #######
 #######################################
 
-### Not finished yet
+### Not
 
 levels = c(rep(1, 50), rep(2, 52))
 
