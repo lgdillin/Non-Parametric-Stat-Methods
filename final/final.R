@@ -26,8 +26,11 @@ library(multtest)
 # For ease of use, I simply created my own group vector b/c I couldn't figure out how to parse the RData one
 levels = c(rep(1, 50), rep(2, 52))
 
-normal = 0
-notnormal = 0
+sig_level = 0.05 / nrow(prostatedata) # our level of significance
+significant = c()
+normal = c()
+notnormal = c()
+
 # For every row in our dataset
 for(i in 1:nrow(prostatedata)) {
   prow = prostatedata[i,]
@@ -35,14 +38,66 @@ for(i in 1:nrow(prostatedata)) {
   # Test if the gene is normally distributed between normal and cancer patients
   normy = shapiro.test(prow)$p.value
   
-  # If it is, we can perform a t-test on the row (b)
+  # split the data
+  normal.patients = prow[1:50]
+  cancer.patients = prow[51:102]
+  
+  # If it is, we can perform a two-sample t-test on the row (b)
   # Otherwise, use a non-parametric test
   if(normy < 0.05) {
-    notnormal = notnormal + 1
+    notnormal = append(notnormal, i)
+    statistic = wilcox.test(normal.patients, cancer.patients, alternative = "two.sided")
+    
+    if(statistic$p.value < sig_level) {
+      significant = append(significant, i)
+    }
   } else {
-    normal = normal + 1
-    t.test()
+    normal = append(normal, i)
+    statistic = t.test(normal.patients, cancer.patients, alternative = "two.sided")
+    if(statistic$p.value < sig_level) {
+      significant = append(significant, i)
+    }
   }
 }
 
+#######################################
+##### PROBLEM #2: LEUKEMIA DATA #######
+#######################################
 
+### Not finished yet
+
+levels = c(rep(1, 50), rep(2, 52))
+
+sig_level = 0.05 / nrow(leuk) # our level of significance
+significant = c()
+normal = c()
+notnormal = c()
+
+# For every row in our dataset
+for(i in 1:nrow(prostatedata)) {
+  prow = prostatedata[i,]
+  
+  # Test if the gene is normally distributed between normal and cancer patients
+  normy = shapiro.test(prow)$p.value
+  
+  # split the data
+  normal.patients = prow[1:50]
+  cancer.patients = prow[51:102]
+  
+  # If it is, we can perform a two-sample t-test on the row (b)
+  # Otherwise, use a non-parametric test
+  if(normy < 0.05) {
+    notnormal = append(notnormal, i)
+    statistic = wilcox.test(normal.patients, cancer.patients, alternative = "two.sided")
+    
+    if(statistic$p.value < sig_level) {
+      significant = append(significant, i)
+    }
+  } else {
+    normal = append(normal, i)
+    statistic = t.test(normal.patients, cancer.patients, alternative = "two.sided")
+    if(statistic$p.value < sig_level) {
+      significant = append(significant, i)
+    }
+  }
+}
