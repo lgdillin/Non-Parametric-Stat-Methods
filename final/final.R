@@ -9,6 +9,10 @@ load(url("http://statweb.stanford.edu/~ckirby/brad/LSI/datasets-and-programs/dat
 load(url("http://statweb.stanford.edu/~ckirby/brad/LSI/datasets-and-programs/data/leukdata.RData"))
 dim(leukdata)
 
+# siegel.tukey
+setwd("C:\Users\derek\Documents\GitHub\Non-Parametric-Stat-Methods")
+source("siegel.tukey.R")
+
 # Obtaining R packages:
 # for (base) biocLite and (dependent) multtest:
 source("http://bioconductor.org/biocLite.R")
