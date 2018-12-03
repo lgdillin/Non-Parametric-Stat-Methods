@@ -10,8 +10,8 @@ load(url("http://statweb.stanford.edu/~ckirby/brad/LSI/datasets-and-programs/dat
 dim(leukdata)
 
 # siegel.tukey
-setwd("C:\Users\derek\Documents\GitHub\Non-Parametric-Stat-Methods")
-source("siegel.tukey.R")
+# setwd("C:\Users\derek\Documents\GitHub\Non-Parametric-Stat-Methods")
+# source("siegel.tukey.R")
 
 # Obtaining R packages:
 # for (base) biocLite and (dependent) multtest:
@@ -34,6 +34,7 @@ sig_level = 0.05 / nrow(prostatedata) # our level of significance
 significant = c()
 normal = c()
 notnormal = c()
+p.values = c()
 
 # For every row in our dataset
 for(i in 1:nrow(prostatedata)) {
@@ -50,10 +51,11 @@ for(i in 1:nrow(prostatedata)) {
   # Otherwise, use a non-parametric test
   if(normy < 0.05) {
     notnormal = append(notnormal, i)
-    statistic = wilcox.test(normal.patients, cancer.patients, alternative = "two.sided")
+    statistic = wilcox.test(normal.patients, cancer.patients, alternative = "two.sided", correct = TRUE)
     
     # If the p.value of the result is less than our sig_level
     # save the index
+    p.values = append(p.values, statistic$p.value)
     if(statistic$p.value < sig_level) {
       significant = append(significant, i)
     }
@@ -63,9 +65,19 @@ for(i in 1:nrow(prostatedata)) {
     
     # If the p.value of the result is less than our sig_level
     # save the index
+    p.values = append(p.values, statistic$p.value)
     if(statistic$p.value < sig_level) {
       significant = append(significant, i)
     }
+  }
+}
+
+count = 0
+ccount = c()
+for(i in 1:length(test)) {
+  if(test[i] < 1.0) {
+    count = count + 1
+    ccount = append(ccount, i)
   }
 }
 
