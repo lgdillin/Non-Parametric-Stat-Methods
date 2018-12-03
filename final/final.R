@@ -72,20 +72,10 @@ for(i in 1:nrow(prostatedata)) {
   }
 }
 
-count = 0
-ccount = c()
-for(i in 1:length(test)) {
-  if(test[i] < 1.0) {
-    count = count + 1
-    ccount = append(ccount, i)
-  }
-}
 
 #######################################
 ##### PROBLEM #2: LEUKEMIA DATA #######
 #######################################
-
-### Not
 
 levels = c(rep(0, 47), rep(1, 25))
 
@@ -93,6 +83,7 @@ sig_level = 0.05 / nrow(leukdata) # our level of significance
 significant = c()
 normal = c()
 notnormal = c()
+p.values = c()
 
 # For every row in our dataset
 for(i in 1:nrow(leukdata)) {
@@ -111,12 +102,15 @@ for(i in 1:nrow(leukdata)) {
     notnormal = append(notnormal, i)
     statistic = wilcox.test(ALL.patients, AML.patients, alternative = "two.sided", correct = TRUE)
     
+    p.values = append(p.values, statistic$p.value)
     if(statistic$p.value < sig_level) {
       significant = append(significant, i)
     }
   } else {
     normal = append(normal, i)
     statistic = t.test(ALL.patients, AML.patients, alternative = "two.sided")
+    
+    p.values = append(p.values, statistic$p.value)
     if(statistic$p.value < sig_level) {
       significant = append(significant, i)
     }
